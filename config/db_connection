@@ -1,0 +1,14 @@
+const mysql = require('mysql');
+const con = mysql.createConnection({
+  host: "154.41.252.249",
+  user: "u201997712_nodebestverify",
+  password: "uX*Z2+Lc",
+  database:"u201997712_nodebestverify"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+module.exports = con;

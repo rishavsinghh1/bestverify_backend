@@ -7,7 +7,7 @@ config/autoload/*.local.php
 
 # Binary gettext files
 *.mo
-
+node_modules/
 # Data
 data/logs/
 data/cache/
