@@ -7,7 +7,7 @@ const Logger = require('../helpers/logger');
 const Security = require('../core/Security');
 const logger = new Logger('auth-login', 'storage/logs')
 const security = new Security();
-
+require("dotenv").config();
 
 //User  Login Fun
 exports.userLogin = (req, res) => {
@@ -17,20 +17,32 @@ exports.userLogin = (req, res) => {
         logger.error({ Validation: errors })
         res.formError(errors);
     } else {
-        findUser(email, password, (result) => {
-            console.log('userdetails??', result.data.data[0].id);
+        findUser(email, password, (result) => { 
             if (result) {
-                const token = generateToken(result.data.data[0].id);
-                console.log('token??', token);
+                const token = generateToken(result.data.data[0].id); 
                 logger.success(token)
-                return res.response({ token }, "login successfully done!!", 200);
+                let resobj ={
+                        token:token,
+                        userdata:{
+                            userid:result.data.data[0].id,
+                            username:result.data.data[0].username,
+                            firmname:result.data.data[0].firmname,
+                            name:result.data.data[0].name,
+                            email:result.data.data[0].email,
+                            phone:result.data.data[0].phone,
+                            role:result.data.data[0].role,
+                            email_verify:result.data.data[0].email_verify,
+                            phone_verify:result.data.data[0].phone_verify,
+                            status:result.data.data[0].status,
+                            createdAt:result.data.data[0].createdAt,
+                        }
+                }
+                return res.response(resobj , "login successfully done!!", 200);
             } else {
                 logger.error({ Result: result })
                 res.response({}, "invalid login !!", 201);
             }
-        });
-
-
+        }); 
     }
 
 }
